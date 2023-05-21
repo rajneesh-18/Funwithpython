@@ -24,9 +24,9 @@ while True:
     choose = input("Choose an option to calculate (a-e): ")
 
     if choose == 'e':
-        print("I hope that your problem solved.B-Bye")
+        print("I hope that your problem solved.B-Bye")        
         break
-
+#Thanks for visiting my profile I hope that the code will help you
     if choose in ('a', 'b', 'c', 'd'):
         num1 = float(input("Enter the number 1 : "))
         num2 = float(input("Enter the number 2: "))
