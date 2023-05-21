@@ -26,10 +26,10 @@ while True:
     if choose == 'e':
         print("I hope that your problem solved.B-Bye")        
         break
-#Thanks for visiting my profile I hope that the code will help you
+        
     if choose in ('a', 'b', 'c', 'd'):
-        num1 = float(input("Enter the number 1 : "))
-        num2 = float(input("Enter the number 2: "))
+        num1 = float(input("Enter the num 1 : "))
+        num2 = float(input("Enter the num 2: "))
 
         if choose == 'a':
             result = add(num1, num2)
@@ -47,3 +47,4 @@ while True:
         print(f"{num1} {operator} {num2} = {result}")
     else:
         print("Invalid input. Please try again.")
+#Thanks for visiting my profile I hope that the code will help you
