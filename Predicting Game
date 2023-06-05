@@ -1,0 +1,25 @@
+# Let's go for a Guessing Game Project
+# Now start
+import random
+
+# Think a number between 1 to 100
+num = random.randint(1, 100) #num as number
+
+# This helps the variable which is used to track number of predictions.
+predictions = 0
+
+# User welcome message 
+print("Thanks for visting the Guessing Game")
+print("Think of a number between 1 to 100.")
+
+while True:
+    predicts = int(input("Take a predict: "))
+    predictions += 1
+
+    if  predicts < num: #num as number
+        print("No that's wrong! Try it again.")
+    elif predicts > num: #num as number
+        print("No that's also wrong! Try it again.")
+    else:
+        print(f"Congratulations! You predicts the number in {predictions} efforts.")
+        break
