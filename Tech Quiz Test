@@ -1,0 +1,38 @@
+# Let's go for quiz round 
+# Test your technology test
+# Start!!
+class Question:
+    def __init__(self, prompt, answer):
+        self.prompt = prompt
+        self.answer = answer
+        
+print("Let's start the Quiz:")        
+
+# Here's the list of questions
+questions = [
+    Question("Which technology is right now in Boom? ", "AI"),
+    Question("Who created the CHATGPT? ", "Sam Altman"),
+    Question("Most popular IT hub in all over world? ", "Silicon Valley"),
+    Question("Which programming language is the mother of all modern languages? ", "C"),
+    Question("Which platform is used to store code online? ", "GitHub")
+]
+
+score = 0
+
+for question in questions:
+    user_answer = input(question.prompt)
+    if user_answer.lower() == question.answer.lower():
+        print("Correct!")
+        score += 1
+    else:
+        print("Incorrect!")
+
+print("Quiz complete")
+print("Your score is:", score, "out of", len(questions))
+
+if score == 5:
+    print("Good job!")
+elif score == 4 or score == 3:
+    print("Better luck next time!")
+else:
+    print("Try again for a better score!")
