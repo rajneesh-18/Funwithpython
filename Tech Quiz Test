@@ -36,3 +36,4 @@ elif score == 4 or score == 3:
     print("Better luck next time!")
 else:
     print("Try again for a better score!")
+print("Thanks for visting here.!!!")    
