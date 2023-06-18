@@ -1,0 +1,21 @@
+# Need a Greeting of Day  
+# Let's make it
+# Start
+import datetime
+
+def greeting_of_day():
+    ongoing_hr = datetime.datetime.now().hour
+
+    if ongoing_hr < 12:
+        print("Good morning! Read a thought and make your day special.")
+    elif ongoing_hr < 18:
+        print("Good afternoon! I know that your day is going nice and If not than explore something.")
+    else:
+        print("Good evening! If you can look at the sunset and smile, then you still have hope.")
+
+def main():
+    print("Welcome Everyone! Here take the greetings amke your day!")
+    greeting_of_day()
+    
+if __name__ == '__main__':
+    main()
