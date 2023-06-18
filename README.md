@@ -18,3 +18,6 @@
   
   
   Temperature Converter
+
+  
+  Greeting of Day 
