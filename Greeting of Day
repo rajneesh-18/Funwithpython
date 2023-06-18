@@ -14,7 +14,7 @@ def greeting_of_day():
         print("Good evening! If you can look at the sunset and smile, then you still have hope.")
 
 def main():
-    print("Welcome Everyone! Here take the greetings amke your day!")
+    print("Welcome Everyone! Here take the greetings make your day!")
     greeting_of_day()
     
 if __name__ == '__main__':
