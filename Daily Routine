@@ -1,0 +1,41 @@
+# One more project "Daily Routine"
+# Let's get started
+class DailyRoutine:
+    def __init__(self):
+        self.routine = []
+
+    def add_routine(self, routine):
+        self.routine.append(routine)
+        print(f"Routine '{routine}' added to your Daily Routine.")
+
+    def remove_routine(self, routine):
+        if routine in self.routine:
+            self.routine.remove(routine)
+            print(f"routine '{routine}' removed from Daily Routine.")
+        else:
+            print(f"routine '{routine}' not found in Daily Routine.")
+
+    def display_routine(self):
+        if self.routine:
+            print("Daily Routine:")
+            for i, routine in enumerate(self.routine, start=1):
+                print(f"{i}. {routine}")
+        else:
+            print("Hello Everyone!!")
+            print("No routine in the Daily Routine:")
+            print("Add some routine:")
+
+
+# Create a Daily Routine Object
+my_list = DailyRoutine()
+
+# Test the Daily Routine Methods
+my_list.display_routine()  # Display routine
+my_list.add_routine("Do CSS Challenges")  # Add a routine
+my_list.add_routine("Make Python Projects")  # Add a routine
+my_list.add_routine("Attend Community Calls")  # Add a routine
+my_list.add_routine("Learn a thought everyday")  # Add another routine
+my_list.display_routine()  # Display updated routine
+my_list.remove_routine("Assignments")  # Remove a routine
+my_list.remove_routine("College Time")  # Remove a non-existed routine
+my_list.display_routine()  # Display updated routine
