@@ -21,3 +21,6 @@
 
   
   Greeting of Day 
+ 
+ 
+  Daily Routine
