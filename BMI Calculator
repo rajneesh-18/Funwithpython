@@ -1,4 +1,4 @@
-# BMI Calculator
+# BMI Calculator 
 
 # Function to calculate BMI
 def calculate_bmi(weight, height):
