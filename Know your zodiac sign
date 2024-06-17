@@ -44,3 +44,5 @@ m = int(input("Enter the month of birth: "))
 zodiac_sign = know_zodiac_sign(d, m)
 print("Your Zodiac sign is:", zodiac_sign)
 print("#Thanks for visiting here.#")
+
+print("Easy method to your zodiac sign and share with your friends")
