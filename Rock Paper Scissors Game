@@ -1,28 +1,58 @@
-#let's go for one more game
-#Rock Paper Scissors 
 import random
+from dataclasses import dataclass
+from enum import Enum, auto
 
-def find_who_win(user_select, computer_select):
-    if user_select == computer_select:
-        return "Draw Try Again for Win!"
-    elif (
-        (user_select == "rock" and computer_select == "scissors") or
-        (user_select == "paper" and computer_select == "rock") or
-        (user_select == "scissors" and computer_select == "paper")
-    ):
-        return " Wow, You win!"
-    else:
-        return "Oops, You lose. Try Again !!"
+# Enum for possible choices
+class Choice(Enum):
+    ROCK = "rock"
+    PAPER = "paper"
+    SCISSORS = "scissors"
 
-selection = ["rock", "paper", "scissors"]
+# Enum for game result
+class Result(Enum):
+    WIN = "🎉 Wow, You win!"
+    LOSE = "😢 Oops, You lose. Try Again!!"
+    DRAW = "🤝 Draw! Try Again for Win!"
 
-print("Welcome to Rock-Paper-Scissors!")
-print("Enter your option: (rock, paper, or scissors)")
-user_select = input().lower()
+@dataclass
+class Game:
+    user_choice: Choice
+    computer_choice: Choice
 
-if user_select in selection:
-    computer_select = random.choice(selection)
-    print("Computer select:", computer_select)
-    print(find_who_win(user_select, computer_select))
-else:
-    print("Invalid select. Please select in between rock, paper, or scissors.")
+    def find_winner(self) -> Result:
+        """Determine the result of the game."""
+        if self.user_choice == self.computer_choice:
+            return Result.DRAW
+        elif (
+            (self.user_choice == Choice.ROCK and self.computer_choice == Choice.SCISSORS) or
+            (self.user_choice == Choice.PAPER and self.computer_choice == Choice.ROCK) or
+            (self.user_choice == Choice.SCISSORS and self.computer_choice == Choice.PAPER)
+        ):
+            return Result.WIN
+        else:
+            return Result.LOSE
+
+def get_user_choice() -> Choice:
+    """Get validated user choice."""
+    while True:
+        user_input = input("Enter your option (rock, paper, or scissors): ").strip().lower()
+        try:
+            return Choice(user_input)
+        except ValueError:
+            print("Invalid selection. Please select between rock, paper, or scissors.")
+
+def main():
+    print("🎮 Welcome to Rock-Paper-Scissors!")
+
+    user_choice = get_user_choice()
+    computer_choice = random.choice(list(Choice))
+    print(f"💻 Computer selected: {computer_choice.value}")
+
+    game = Game(user_choice, computer_choice)
+    result = game.find_winner()
+    print(result.value)
+
+    print("\nThanks for playing! Try again to beat the computer!")
+
+if __name__ == "__main__":
+    main()
