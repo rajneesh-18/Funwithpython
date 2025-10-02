@@ -1,27 +1,37 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Optional
 
-# Enum for Zodiac Signs
+
+# Enum for Zodiac Signs with colors
 class ZodiacSign(Enum):
-    AQUARIUS = "Aquarius ♒️ (Jan 20 - Feb 18)"
-    PISCES = "Pisces ♓️ (Feb 19 - Mar 20)"
-    ARIES = "Aries ♈️ (Mar 21 - Apr 19)"
-    TAURUS = "Taurus ♉️ (Apr 20 - May 20)"
-    GEMINI = "Gemini ♊️ (May 21 - Jun 20)"
-    CANCER = "Cancer ♋️ (Jun 21 - Jul 22)"
-    LEO = "Leo ♌️ (Jul 23 - Aug 22)"
-    VIRGO = "Virgo ♍️ (Aug 23 - Sep 22)"
-    LIBRA = "Libra ♎️ (Sep 23 - Oct 22)"
-    SCORPIO = "Scorpio ♏️ (Oct 23 - Nov 21)"
-    SAGITTARIUS = "Sagittarius ♐️ (Nov 22 - Dec 21)"
-    CAPRICORN = "Capricorn ♑️ (Dec 22 - Jan 19)"
+    AQUARIUS = ("Aquarius ♒️ (Jan 20 - Feb 18)", "💙 Blue")
+    PISCES = ("Pisces ♓️ (Feb 19 - Mar 20)", "🌊 Sea Green")
+    ARIES = ("Aries ♈️ (Mar 21 - Apr 19)", "❤️ Red")
+    TAURUS = ("Taurus ♉️ (Apr 20 - May 20)", "💚 Green")
+    GEMINI = ("Gemini ♊️ (May 21 - Jun 20)", "💛 Yellow")
+    CANCER = ("Cancer ♋️ (Jun 21 - Jul 22)", "🤍 White / Silver")
+    LEO = ("Leo ♌️ (Jul 23 - Aug 22)", "🧡 Gold / Orange")
+    VIRGO = ("Virgo ♍️ (Aug 23 - Sep 22)", "🤎 Brown")
+    LIBRA = ("Libra ♎️ (Sep 23 - Oct 22)", "💖 Pink")
+    SCORPIO = ("Scorpio ♏️ (Oct 23 - Nov 21)", "⚫ Black")
+    SAGITTARIUS = ("Sagittarius ♐️ (Nov 22 - Dec 21)", "💜 Purple")
+    CAPRICORN = ("Capricorn ♑️ (Dec 22 - Jan 19)", "🖤 Dark Grey")
+
+    def description(self) -> str:
+        return self.value[0]
+
+    def color(self) -> str:
+        return self.value[1]
+
 
 @dataclass
 class BirthDate:
     day: int
     month: int
 
-def get_zodiac_sign(birthdate: BirthDate) -> ZodiacSign | None:
+
+def get_zodiac_sign(birthdate: BirthDate) -> Optional[ZodiacSign]:
     """Determine zodiac sign based on birthdate."""
     d, m = birthdate.day, birthdate.month
     if (m == 1 and d >= 20) or (m == 2 and d <= 18):
@@ -50,27 +60,48 @@ def get_zodiac_sign(birthdate: BirthDate) -> ZodiacSign | None:
         return ZodiacSign.CAPRICORN
     return None
 
+
+def is_valid_date(day: int, month: int) -> bool:
+    """Validate if the given day & month form a real date."""
+    days_in_month = {
+        1: 31, 2: 29, 3: 31, 4: 30,
+        5: 31, 6: 30, 7: 31, 8: 31,
+        9: 30, 10: 31, 11: 30, 12: 31
+    }
+    return 1 <= month <= 12 and 1 <= day <= days_in_month[month]
+
+
 def get_birthdate_input() -> BirthDate:
     """Get validated birthdate from user."""
     while True:
         try:
             day = int(input("Enter the day of birth (1-31): "))
             month = int(input("Enter the month of birth (1-12): "))
-            if not (1 <= month <= 12) or not (1 <= day <= 31):
+            if not is_valid_date(day, month):
                 raise ValueError
             return BirthDate(day, month)
         except ValueError:
-            print("Invalid input. Please enter a valid day and month.")
+            print("❌ Invalid date. Please try again.")
+
 
 def main():
-    print("Welcome to the Zodiac Sign Finder!")
-    birthdate = get_birthdate_input()
-    zodiac = get_zodiac_sign(birthdate)
-    if zodiac:
-        print(f"\nYour Zodiac sign is: {zodiac.value}")
-    else:
-        print("Invalid date. Could not determine zodiac sign.")
-    print("\nThanks for visiting! Share your zodiac sign with your friends!")
+    print("🌟 Welcome to the Zodiac Sign Finder 🌟")
+
+    while True:
+        birthdate = get_birthdate_input()
+        zodiac = get_zodiac_sign(birthdate)
+
+        if zodiac:
+            print(f"\n✨ Your Zodiac sign is: {zodiac.description()}")
+            print(f"🎨 Lucky Color: {zodiac.color()}")
+        else:
+            print("❌ Could not determine zodiac sign.")
+
+        again = input("\nDo you want to check another? (y/n): ").strip().lower()
+        if again != "y":
+            print("\nThanks for visiting! Share your zodiac sign with your friends! ✨")
+            break
+
 
 if __name__ == "__main__":
     main()
