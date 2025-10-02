@@ -1,40 +1,54 @@
-# BMI Calculator
+from dataclasses import dataclass
+from enum import Enum
 
-# Function to calculate BMI
-def calculate_bmi(weight, height):
-    """
-    Calculate BMI given weight (kg) and height (cm)
-    """
-    height_m = height / 100  # Convert height to meters
-    bmi = weight / (height_m ** 2)
-    return bmi
+# Enum for BMI categories
+class BMICategory(Enum):
+    UNDERWEIGHT = "Underweight"
+    NORMAL = "Normal weight"
+    OVERWEIGHT = "Overweight"
+    OBESE = "Obese"
 
-# Function to categorize BMI
-def categorize_bmi(bmi):
-    """
-    Return BMI category based on BMI value
-    """
+@dataclass
+class User:
+    weight: float  # in kilograms
+    height: float  # in centimeters
+
+def calculate_bmi(weight: float, height: float) -> float:
+    """Calculate BMI given weight (kg) and height (cm)."""
+    height_m = height / 100
+    return weight / (height_m ** 2)
+
+def categorize_bmi(bmi: float) -> BMICategory:
+    """Return the BMI category as BMICategory Enum."""
     if bmi < 18.5:
-        return "Underweight"
+        return BMICategory.UNDERWEIGHT
     elif bmi < 25:
-        return "Normal weight"
+        return BMICategory.NORMAL
     elif bmi < 30:
-        return "Overweight"
+        return BMICategory.OVERWEIGHT
     else:
-        return "Obese"
+        return BMICategory.OBESE
 
-# Get user input
-weight = float(input("Enter your weight in kilograms: "))
-height = float(input("Enter your height in centimeters: "))
+def get_user_input() -> User:
+    """Get validated user input for weight and height."""
+    while True:
+        try:
+            weight = float(input("Enter your weight in kilograms: "))
+            height = float(input("Enter your height in centimeters: "))
+            if weight <= 0 or height <= 0:
+                raise ValueError
+            return User(weight, height)
+        except ValueError:
+            print("Invalid input. Please enter positive numbers for weight and height.")
 
-# Calculate BMI
-bmi = calculate_bmi(weight, height)
+def main():
+    user = get_user_input()
+    bmi = calculate_bmi(user.weight, user.height)
+    category = categorize_bmi(bmi)
+    
+    print(f"\nYour BMI is: {bmi:.2f}")
+    print(f"Category: {category.value}")
+    print("\nThanks for visiting my profile! I hope this code helps you.")
 
-# Categorize BMI
-category = categorize_bmi(bmi)
-
-# Print the result with formatted output
-print(f"\nYour BMI is: {bmi:.2f}")
-print(f"Category: {category}")
-
-print("\nThanks for visiting my profile! I hope this code helps you.")
+if __name__ == "__main__":
+    main()
