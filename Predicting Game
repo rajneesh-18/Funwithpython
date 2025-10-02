@@ -1,28 +1,62 @@
-# Predicting Game Project
+# 🎯 Advanced Guessing Game Project
 import random
 
-# Generate a random number between 1 to 100
-num = random.randint(1, 100)
+def choose_difficulty():
+    """Ask user to select a difficulty level."""
+    print("\nChoose difficulty level:")
+    print("1. Easy (10 attempts)")
+    print("2. Medium (7 attempts)")
+    print("3. Hard (5 attempts)")
 
-# Track number of attempts
-attempts = 0
-
-# Welcome message
-print("Welcome to the Guessing Game!")
-print("I have picked a number between 1 and 100.")
-print("Try to guess it!")
-
-while True:
-    try:
-        guess = int(input("Enter your guess: "))
-        attempts += 1
-
-        if guess < num:
-            print("Too low! Try again.")
-        elif guess > num:
-            print("Too high! Try again.")
+    while True:
+        choice = input("Enter choice (1-3): ").strip()
+        if choice == '1':
+            return 10
+        elif choice == '2':
+            return 7
+        elif choice == '3':
+            return 5
         else:
-            print(f"🎉 Congratulations! You guessed the number in {attempts} attempts.")
+            print("❌ Invalid choice. Please select 1, 2, or 3.")
+
+def play_game():
+    """Main guessing game loop."""
+    num = random.randint(1, 100)
+    max_attempts = choose_difficulty()
+    attempts = 0
+
+    print("\n🎉 Welcome to the Advanced Guessing Game!")
+    print("I have picked a number between 1 and 100.")
+    print(f"You have {max_attempts} attempts. Good luck!\n")
+
+    while attempts < max_attempts:
+        try:
+            guess = int(input(f"Attempt {attempts+1}/{max_attempts} - Enter your guess: "))
+            attempts += 1
+
+            if guess < num:
+                print("📉 Too low!")
+            elif guess > num:
+                print("📈 Too high!")
+            else:
+                score = (max_attempts - attempts + 1) * 10
+                print(f"\n✅ Correct! The number was {num}.")
+                print(f"🏆 You guessed it in {attempts} attempts. Score: {score}\n")
+                break
+        except ValueError:
+            print("⚠️ Please enter a valid number.")
+
+    else:
+        print(f"\n❌ Out of attempts! The number was {num}. Better luck next time!\n")
+
+def main():
+    """Run the game with replay option."""
+    while True:
+        play_game()
+        again = input("Do you want to play again? (y/n): ").lower()
+        if again != 'y':
+            print("\nThanks for playing! 👋")
             break
-    except ValueError:
-        print("Please enter a valid number.")
+
+if __name__ == "__main__":
+    main()
