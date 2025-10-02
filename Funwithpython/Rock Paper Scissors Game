@@ -1,0 +1,28 @@
+#let's go for one more game
+#Rock Paper Scissors 
+import random
+
+def find_who_win(user_select, computer_select):
+    if user_select == computer_select:
+        return "Draw Try Again for Win!"
+    elif (
+        (user_select == "rock" and computer_select == "scissors") or
+        (user_select == "paper" and computer_select == "rock") or
+        (user_select == "scissors" and computer_select == "paper")
+    ):
+        return " Wow, You win!"
+    else:
+        return "Oops, You lose. Try Again !!"
+
+selection = ["rock", "paper", "scissors"]
+
+print("Welcome to Rock-Paper-Scissors!")
+print("Enter your option: (rock, paper, or scissors)")
+user_select = input().lower()
+
+if user_select in selection:
+    computer_select = random.choice(selection)
+    print("Computer select:", computer_select)
+    print(find_who_win(user_select, computer_select))
+else:
+    print("Invalid select. Please select in between rock, paper, or scissors.")

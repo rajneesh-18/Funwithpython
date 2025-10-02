@@ -1,0 +1,28 @@
+# Predicting Game Project
+import random
+
+# Generate a random number between 1 to 100
+num = random.randint(1, 100)
+
+# Track number of attempts
+attempts = 0
+
+# Welcome message
+print("Welcome to the Guessing Game!")
+print("I have picked a number between 1 and 100.")
+print("Try to guess it!")
+
+while True:
+    try:
+        guess = int(input("Enter your guess: "))
+        attempts += 1
+
+        if guess < num:
+            print("Too low! Try again.")
+        elif guess > num:
+            print("Too high! Try again.")
+        else:
+            print(f"🎉 Congratulations! You guessed the number in {attempts} attempts.")
+            break
+    except ValueError:
+        print("Please enter a valid number.")

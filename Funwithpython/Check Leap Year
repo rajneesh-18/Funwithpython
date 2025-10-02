@@ -1,0 +1,22 @@
+# let's go one more simple project on check the year leap or not
+def check_leap_year_or_not(year):
+    if year % 4 == 0:
+        return True
+    else:
+        return False    
+    if year % 100 == 0:
+        return True
+    else:
+        return False    
+    if year % 400 == 0:
+        return True
+    else:
+        return False
+# User input
+input_year = int(input("Enter a year: "))
+
+# Check the year is a leap year or not
+if check_leap_year_or_not(input_year):
+    print(input_year, "is a leap year.")
+else:
+    print(input_year, "is not a leap year.")
