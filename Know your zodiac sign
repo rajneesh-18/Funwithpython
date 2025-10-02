@@ -1,48 +1,76 @@
-# Let's create something new 
-def know_zodiac_sign(d, m):
+from dataclasses import dataclass
+from enum import Enum
+
+# Enum for Zodiac Signs
+class ZodiacSign(Enum):
+    AQUARIUS = "Aquarius ♒️ (Jan 20 - Feb 18)"
+    PISCES = "Pisces ♓️ (Feb 19 - Mar 20)"
+    ARIES = "Aries ♈️ (Mar 21 - Apr 19)"
+    TAURUS = "Taurus ♉️ (Apr 20 - May 20)"
+    GEMINI = "Gemini ♊️ (May 21 - Jun 20)"
+    CANCER = "Cancer ♋️ (Jun 21 - Jul 22)"
+    LEO = "Leo ♌️ (Jul 23 - Aug 22)"
+    VIRGO = "Virgo ♍️ (Aug 23 - Sep 22)"
+    LIBRA = "Libra ♎️ (Sep 23 - Oct 22)"
+    SCORPIO = "Scorpio ♏️ (Oct 23 - Nov 21)"
+    SAGITTARIUS = "Sagittarius ♐️ (Nov 22 - Dec 21)"
+    CAPRICORN = "Capricorn ♑️ (Dec 22 - Jan 19)"
+
+@dataclass
+class BirthDate:
+    day: int
+    month: int
+
+def get_zodiac_sign(birthdate: BirthDate) -> ZodiacSign | None:
+    """Determine zodiac sign based on birthdate."""
+    d, m = birthdate.day, birthdate.month
     if (m == 1 and d >= 20) or (m == 2 and d <= 18):
-        return "Aquarius ♒️"
-        #Aquarius ♒️: January 20 - February 18
+        return ZodiacSign.AQUARIUS
     elif (m == 2 and d >= 19) or (m == 3 and d <= 20):
-        return "Pisces ♓️"
-        #Pisces ♓️: February 19 - March 20
+        return ZodiacSign.PISCES
     elif (m == 3 and d >= 21) or (m == 4 and d <= 19):
-        return "Aries ♈️"
-        #Aries ♈️: March 21 - April 19.
+        return ZodiacSign.ARIES
     elif (m == 4 and d >= 20) or (m == 5 and d <= 20):
-        return "Taurus ♉️"
-        #Taurus ♉️: April 20 - May 20.
+        return ZodiacSign.TAURUS
     elif (m == 5 and d >= 21) or (m == 6 and d <= 20):
-        return "Gemini ♊️"
-        #Gemini ♊️: May 21 - June 20.
+        return ZodiacSign.GEMINI
     elif (m == 6 and d >= 21) or (m == 7 and d <= 22):
-        return "Cancer ♋️"
-        #Cancer ♋️: June 21 - July 22
+        return ZodiacSign.CANCER
     elif (m == 7 and d >= 23) or (m == 8 and d <= 22):
-        return "Leo ♌️"
-        #Leo ♌️: July 23 - August 22.
+        return ZodiacSign.LEO
     elif (m == 8 and d >= 23) or (m == 9 and d <= 22):
-        return "Virgo ♍️"
-        #Virgo ♍️: August 23 - September 22
+        return ZodiacSign.VIRGO
     elif (m == 9 and d >= 23) or (m == 10 and d <= 22):
-        return "Libra ♎️"
-        #Libra ♎️: September 23 - October 22
+        return ZodiacSign.LIBRA
     elif (m == 10 and d >= 23) or (m == 11 and d <= 21):
-        return "Scorpio ♏️"
-        #Scorpio ♏️: October 23 - November 21
+        return ZodiacSign.SCORPIO
     elif (m == 11 and d >= 22) or (m == 12 and d <= 21):
-        return "Sagittarius ♐️"
-        #Sagittarius ♐️: November 22 - December 21
+        return ZodiacSign.SAGITTARIUS
     elif (m == 12 and d >= 22) or (m == 1 and d <= 19):
-        return "Capricorn ♑️"
-        #Capricorn ♑️: December 22 - January 19
+        return ZodiacSign.CAPRICORN
+    return None
+
+def get_birthdate_input() -> BirthDate:
+    """Get validated birthdate from user."""
+    while True:
+        try:
+            day = int(input("Enter the day of birth (1-31): "))
+            month = int(input("Enter the month of birth (1-12): "))
+            if not (1 <= month <= 12) or not (1 <= day <= 31):
+                raise ValueError
+            return BirthDate(day, month)
+        except ValueError:
+            print("Invalid input. Please enter a valid day and month.")
+
+def main():
+    print("Welcome to the Zodiac Sign Finder!")
+    birthdate = get_birthdate_input()
+    zodiac = get_zodiac_sign(birthdate)
+    if zodiac:
+        print(f"\nYour Zodiac sign is: {zodiac.value}")
     else:
-        return "Invalid date"
+        print("Invalid date. Could not determine zodiac sign.")
+    print("\nThanks for visiting! Share your zodiac sign with your friends!")
 
-d = int(input("Enter the day of birth: "))
-m = int(input("Enter the month of birth: "))
-zodiac_sign = know_zodiac_sign(d, m)
-print("Your Zodiac sign is:", zodiac_sign)
-print("#Thanks for visiting here.#")
-
-print("Easy method to your zodiac sign and share with your friends")
+if __name__ == "__main__":
+    main()
