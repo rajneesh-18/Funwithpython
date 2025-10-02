@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 @dataclass
 class Year:
@@ -12,28 +13,46 @@ class Year:
         """
         return (self.value % 4 == 0 and self.value % 100 != 0) or (self.value % 400 == 0)
 
-def get_year_input() -> Year:
-    """Get validated year input from user."""
+
+def check_years(years: List[int]) -> List[str]:
+    """
+    Accepts a list of years and returns leap year results.
+    Useful for both CLI and unit testing.
+    """
+    results = []
+    for y in years:
+        year_obj = Year(y)
+        if year_obj.is_leap_year():
+            results.append(f"✅ {y} is a leap year.")
+        else:
+            results.append(f"❌ {y} is not a leap year.")
+    return results
+
+
+def get_year_input() -> List[int]:
+    """Get validated list of years from user input."""
     while True:
         try:
-            year_input = int(input("Enter a year: "))
-            if year_input <= 0:
+            raw_input = input("Enter year(s), separated by commas: ")
+            years = [int(y.strip()) for y in raw_input.split(",") if y.strip()]
+            if any(y <= 0 for y in years):
                 raise ValueError
-            return Year(year_input)
+            return years
         except ValueError:
-            print("Invalid input. Please enter a positive integer for the year.")
+            print("Invalid input. Please enter positive integer(s). Example: 2020, 2024, 2100")
+
 
 def main():
-    print("Welcome to the Leap Year Checker!")
+    print("🌍 Welcome to the Leap Year Checker!")
+    years = get_year_input()
 
-    year = get_year_input()
+    results = check_years(years)
+    print("\nResults:")
+    for r in results:
+        print(r)
 
-    if year.is_leap_year():
-        print(f"✅ {year.value} is a leap year.")
-    else:
-        print(f"❌ {year.value} is not a leap year.")
+    print("\n✨ Thanks for using Leap Year Checker! ✨")
 
-    print("\nThanks for visiting! Hope this helps you.")
 
 if __name__ == "__main__":
     main()
