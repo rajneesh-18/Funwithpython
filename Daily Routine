@@ -1,41 +1,55 @@
-# One more project "Daily Routine"
-# Let's get started
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
 class DailyRoutine:
-    def __init__(self):
-        self.routine = []
+    routines: List[str] = field(default_factory=list)
 
-    def add_routine(self, routine):
-        self.routine.append(routine)
-        print(f"Routine '{routine}' added to your Daily Routine.")
+    def add_routine(self, routine: str) -> None:
+        """Add a routine to the daily list."""
+        self.routines.append(routine)
+        print(f"✅ Routine '{routine}' added to your Daily Routine.")
 
-    def remove_routine(self, routine):
-        if routine in self.routine:
-            self.routine.remove(routine)
-            print(f"routine '{routine}' removed from Daily Routine.")
-        else:
-            print(f"routine '{routine}' not found in Daily Routine.")
+    def remove_routine(self, routine: str) -> None:
+        """Remove a routine from the daily list if it exists."""
+        try:
+            self.routines.remove(routine)
+            print(f"🗑️ Routine '{routine}' removed from Daily Routine.")
+        except ValueError:
+            print(f"⚠️ Routine '{routine}' not found in Daily Routine.")
 
-    def display_routine(self):
-        if self.routine:
-            print("Daily Routine:")
-            for i, routine in enumerate(self.routine, start=1):
+    def display_routine(self) -> None:
+        """Display all routines in an enumerated list."""
+        if self.routines:
+            print("\n📋 Your Daily Routine:")
+            for i, routine in enumerate(self.routines, start=1):
                 print(f"{i}. {routine}")
         else:
-            print("Hello Everyone!!")
-            print("No routine in the Daily Routine:")
-            print("Add some routine:")
+            print("\nHello Everyone!!")
+            print("No routines found in your Daily Routine.")
+            print("Add some routines to get started!")
 
+def main():
+    daily_routine = DailyRoutine()
 
-# Create a Daily Routine Object
-my_list = DailyRoutine()
+    # Initial display
+    daily_routine.display_routine()
 
-# Test the Daily Routine Methods
-my_list.display_routine()  # Display routine
-my_list.add_routine("Do CSS Challenges")  # Add a routine
-my_list.add_routine("Make Python Projects")  # Add a routine
-my_list.add_routine("Attend Community Calls")  # Add a routine
-my_list.add_routine("Learn a thought everyday")  # Add another routine
-my_list.display_routine()  # Display updated routine
-my_list.remove_routine("Assignments")  # Remove a routine
-my_list.remove_routine("College Time")  # Remove a non-existed routine
-my_list.display_routine()  # Display updated routine
+    # Adding routines
+    daily_routine.add_routine("Do CSS Challenges")
+    daily_routine.add_routine("Make Python Projects")
+    daily_routine.add_routine("Attend Community Calls")
+    daily_routine.add_routine("Learn a thought every day")
+
+    # Display updated routines
+    daily_routine.display_routine()
+
+    # Removing routines
+    daily_routine.remove_routine("Assignments")       # Routine not in list
+    daily_routine.remove_routine("College Time")      # Routine not in list
+
+    # Final display
+    daily_routine.display_routine()
+
+if __name__ == "__main__":
+    main()
