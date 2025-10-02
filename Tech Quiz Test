@@ -1,39 +1,55 @@
-# Let's go for quiz round 
-# Test your technology test
-# Start!!
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
 class Question:
-    def __init__(self, prompt, answer):
-        self.prompt = prompt
-        self.answer = answer
+    prompt: str
+    answer: str
+
+@dataclass
+class Quiz:
+    questions: List[Question]
+    score: int = 0
+
+    def start(self) -> None:
+        """Run the quiz and calculate the score."""
+        print("📝 Let's start the Quiz!\n")
+        for question in self.questions:
+            user_answer = input(f"{question.prompt} ").strip()
+            if user_answer.lower() == question.answer.lower():
+                print("✅ Correct!\n")
+                self.score += 1
+            else:
+                print(f"❌ Incorrect! The correct answer is: {question.answer}\n")
         
-print("Let's start the Quiz:")        
+        self.display_results()
 
-# Here's the list of questions
-questions = [
-    Question("Which technology is right now in Boom? ", "AI"),
-    Question("Who created the CHATGPT? ", "Sam Altman"),
-    Question("Most popular IT hub in all over world? ", "Silicon Valley"),
-    Question("Which programming language is the mother of all modern languages? ", "C"),
-    Question("Which platform is used to store code online? ", "GitHub")
-]
+    def display_results(self) -> None:
+        """Display quiz results."""
+        total = len(self.questions)
+        print("🏁 Quiz Complete!")
+        print(f"Your score is: {self.score} out of {total}\n")
 
-score = 0
+        if self.score == total:
+            print("🎉 Excellent! Perfect score!")
+        elif self.score >= total * 0.6:
+            print("👍 Good job! Keep learning!")
+        else:
+            print("💡 Try again for a better score!")
+        
+        print("\nThanks for visiting here!")
 
-for question in questions:
-    user_answer = input(question.prompt)
-    if user_answer.lower() == question.answer.lower():
-        print("Correct!")
-        score += 1
-    else:
-        print("Incorrect!")
+def main():
+    questions = [
+        Question("Which technology is booming right now?", "AI"),
+        Question("Who created ChatGPT?", "Sam Altman"),
+        Question("Most popular IT hub in the world?", "Silicon Valley"),
+        Question("Which programming language is the mother of all modern languages?", "C"),
+        Question("Which platform is used to store code online?", "GitHub")
+    ]
 
-print("Quiz complete")
-print("Your score is:", score, "out of", len(questions))
+    quiz = Quiz(questions)
+    quiz.start()
 
-if score == 5:
-    print("Good job!")
-elif score == 4 or score == 3:
-    print("Better luck next time!")
-else:
-    print("Try again for a better score!")
-print("Thanks for visting here.!!!")    
+if __name__ == "__main__":
+    main()
