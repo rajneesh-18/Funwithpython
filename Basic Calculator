@@ -1,5 +1,17 @@
 from dataclasses import dataclass
 from enum import Enum, auto
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+# ANSI colors
+class Color:
+    RESET = "\033[0m"
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    CYAN = "\033[96m"
+    YELLOW = "\033[93m"
 
 # Enum for calculator operations
 class Operation(Enum):
@@ -7,6 +19,8 @@ class Operation(Enum):
     SUBTRACT = auto()
     MULTIPLY = auto()
     DIVIDE = auto()
+    POWER = auto()
+    MODULUS = auto()
     EXIT = auto()
 
 @dataclass
@@ -27,29 +41,39 @@ class Calculator:
             if self.num2 == 0:
                 raise ZeroDivisionError("Cannot divide by zero.")
             return self.num1 / self.num2
+        elif self.operation == Operation.POWER:
+            return self.num1 ** self.num2
+        elif self.operation == Operation.MODULUS:
+            if self.num2 == 0:
+                raise ZeroDivisionError("Cannot take modulus with zero.")
+            return self.num1 % self.num2
         else:
             raise ValueError("Invalid operation.")
 
 def get_user_input() -> Calculator:
     """Get validated user input for the calculator."""
     while True:
-        print("\nChoose an operation:")
-        print("a. Add")
-        print("b. Subtract")
-        print("c. Multiply")
-        print("d. Divide")
-        print("e. Exit")
+        print(f"\n{Color.CYAN}Choose an operation:{Color.RESET}")
+        print("a. Add (+)")
+        print("b. Subtract (-)")
+        print("c. Multiply (*)")
+        print("d. Divide (/)")
+        print("e. Power (^)")
+        print("f. Modulus (%)")
+        print("g. Exit")
 
-        choice = input("Choose an option (a-e): ").lower()
+        choice = input("Choose an option (a-g): ").lower()
 
-        if choice == 'e':
+        if choice == 'g':
             return Calculator(0, 0, Operation.EXIT)
 
         operation_map = {
             'a': Operation.ADD,
             'b': Operation.SUBTRACT,
             'c': Operation.MULTIPLY,
-            'd': Operation.DIVIDE
+            'd': Operation.DIVIDE,
+            'e': Operation.POWER,
+            'f': Operation.MODULUS
         }
 
         if choice in operation_map:
@@ -58,18 +82,20 @@ def get_user_input() -> Calculator:
                 num2 = float(input("Enter number 2: "))
                 return Calculator(num1, num2, operation_map[choice])
             except ValueError:
-                print("Invalid number input. Please enter numeric values.")
+                print(f"{Color.RED}Invalid number input. Please enter numeric values.{Color.RESET}")
         else:
-            print("Invalid choice. Please select a valid option.")
+            print(f"{Color.YELLOW}Invalid choice. Please select a valid option.{Color.RESET}")
 
 def main():
-    print("Welcome to the Advanced Python Calculator!")
+    print(f"{Color.GREEN}Welcome to the Advanced Python Calculator! 🚀{Color.RESET}")
+
+    history = []  # store previous calculations
 
     while True:
         calc = get_user_input()
 
         if calc.operation == Operation.EXIT:
-            print("Hope your calculations went well. Goodbye!")
+            print(f"{Color.CYAN}Hope your calculations went well. Goodbye! 👋{Color.RESET}")
             break
 
         try:
@@ -78,14 +104,27 @@ def main():
                 Operation.ADD: "+",
                 Operation.SUBTRACT: "-",
                 Operation.MULTIPLY: "*",
-                Operation.DIVIDE: "/"
+                Operation.DIVIDE: "/",
+                Operation.POWER: "^",
+                Operation.MODULUS: "%"
             }
             operator = operator_symbols[calc.operation]
-            print(f"{calc.num1} {operator} {calc.num2} = {result}")
-        except ZeroDivisionError as e:
-            print(f"Error: {e}")
+            output = f"{calc.num1} {operator} {calc.num2} = {result}"
+            print(f"{Color.GREEN}{output}{Color.RESET}")
 
-    print("\nThanks for visiting my profile! I hope this code helps you.")
+            history.append(output)
+
+            # Show history option
+            see_history = input("Do you want to see your calculation history? (y/n): ").lower()
+            if see_history == 'y':
+                print(f"\n{Color.CYAN}--- Calculation History ---{Color.RESET}")
+                for record in history:
+                    print(record)
+
+        except ZeroDivisionError as e:
+            print(f"{Color.RED}Error: {e}{Color.RESET}")
+
+    print(f"\n{Color.YELLOW}Thanks for visiting my profile! Keep coding 💻{Color.RESET}")
 
 if __name__ == "__main__":
     main()
