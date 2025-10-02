@@ -1,32 +1,69 @@
-# Let's go for one more project
-# This time I'm making temperature converter for both celsius to fahrenheit and fahrenheit.
-# def using for specific function 
+from dataclasses import dataclass
+from enum import Enum, auto
 
-def fahrenheit_to_celsius(fahrenheit):
-    celsius = (fahrenheit - 32) * 5/9
-    return celsius
-    
-def celsius_to_fahrenheit(celsius):
-    fahrenheit = (celsius * 9/5) + 32
-    return fahrenheit    
+# Enum for conversion types
+class ConversionType(Enum):
+    F_TO_C = auto()
+    C_TO_F = auto()
+    EXIT = auto()
 
-select = input("Enter 1 to convert Fahrenheit to Celsiust, or 2 to convert Celsius to Fahrenheit: ")
+@dataclass
+class Temperature:
+    value: float
+    conversion: ConversionType
 
-if select == '1':
-    
-    fahrenheit = float(input("Enter the temperature in Fahrenheit: "))
-    converted_temp = fahrenheit_to_celsius(fahrenheit)
-    print(f"{fahrenheit} degrees Fahrenheit is equal to {converted_temp} degrees Celsius.")#Here f is a string
-    print("I hope that you get your answer.")
-    print("Thanks for Visting here.")
-    
-elif select == '2':
-    
-    celsius = float(input("Enter the temperature in Celsius: "))
-    converted_temp = celsius_to_fahrenheit(celsius)
-    print(f"{celsius} degrees Celsius is equal to {converted_temp} degrees Fahrenheit.")#Here f is a string
-    print("I hope that you get your answer.")
-    print("Thanks for Visting here.")
+    def convert(self) -> float:
+        """Perform temperature conversion based on the selected type."""
+        if self.conversion == ConversionType.F_TO_C:
+            return (self.value - 32) * 5 / 9
+        elif self.conversion == ConversionType.C_TO_F:
+            return (self.value * 9 / 5) + 32
+        else:
+            raise ValueError("Invalid conversion type.")
 
-else:
-    print("Invalid selection. Please enter any one between these option 1 or 2.")
+def get_user_input() -> Temperature:
+    """Get validated user input for temperature conversion."""
+    while True:
+        print("\nTemperature Converter:")
+        print("1. Fahrenheit to Celsius")
+        print("2. Celsius to Fahrenheit")
+        print("3. Exit")
+        choice = input("Select an option (1-3): ").strip()
+
+        conversion_map = {
+            '1': ConversionType.F_TO_C,
+            '2': ConversionType.C_TO_F,
+            '3': ConversionType.EXIT
+        }
+
+        if choice in conversion_map:
+            if conversion_map[choice] == ConversionType.EXIT:
+                return Temperature(0, ConversionType.EXIT)
+            try:
+                temp_value = float(input("Enter the temperature: "))
+                return Temperature(temp_value, conversion_map[choice])
+            except ValueError:
+                print("Invalid input. Please enter a numeric value.")
+        else:
+            print("Invalid selection. Please choose 1, 2, or 3.")
+
+def main():
+    print("Welcome to the Advanced Temperature Converter!")
+
+    while True:
+        temp = get_user_input()
+        if temp.conversion == ConversionType.EXIT:
+            print("Thank you for using the converter. Goodbye!")
+            break
+
+        converted = temp.convert()
+        if temp.conversion == ConversionType.F_TO_C:
+            print(f"{temp.value:.2f}°F is equal to {converted:.2f}°C")
+        else:
+            print(f"{temp.value:.2f}°C is equal to {converted:.2f}°F")
+
+        print("I hope this helps you!")
+        print("Thanks for visiting here.\n")
+
+if __name__ == "__main__":
+    main()
