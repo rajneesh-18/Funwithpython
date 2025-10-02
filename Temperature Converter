@@ -1,0 +1,32 @@
+# Let's go for one more project
+# This time I'm making temperature converter for both celsius to fahrenheit and fahrenheit.
+# def using for specific function 
+
+def fahrenheit_to_celsius(fahrenheit):
+    celsius = (fahrenheit - 32) * 5/9
+    return celsius
+    
+def celsius_to_fahrenheit(celsius):
+    fahrenheit = (celsius * 9/5) + 32
+    return fahrenheit    
+
+select = input("Enter 1 to convert Fahrenheit to Celsiust, or 2 to convert Celsius to Fahrenheit: ")
+
+if select == '1':
+    
+    fahrenheit = float(input("Enter the temperature in Fahrenheit: "))
+    converted_temp = fahrenheit_to_celsius(fahrenheit)
+    print(f"{fahrenheit} degrees Fahrenheit is equal to {converted_temp} degrees Celsius.")#Here f is a string
+    print("I hope that you get your answer.")
+    print("Thanks for Visting here.")
+    
+elif select == '2':
+    
+    celsius = float(input("Enter the temperature in Celsius: "))
+    converted_temp = celsius_to_fahrenheit(celsius)
+    print(f"{celsius} degrees Celsius is equal to {converted_temp} degrees Fahrenheit.")#Here f is a string
+    print("I hope that you get your answer.")
+    print("Thanks for Visting here.")
+
+else:
+    print("Invalid selection. Please enter any one between these option 1 or 2.")

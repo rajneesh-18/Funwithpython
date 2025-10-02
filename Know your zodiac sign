@@ -1,0 +1,48 @@
+# Let's create something new 
+def know_zodiac_sign(d, m):
+    if (m == 1 and d >= 20) or (m == 2 and d <= 18):
+        return "Aquarius ♒️"
+        #Aquarius ♒️: January 20 - February 18
+    elif (m == 2 and d >= 19) or (m == 3 and d <= 20):
+        return "Pisces ♓️"
+        #Pisces ♓️: February 19 - March 20
+    elif (m == 3 and d >= 21) or (m == 4 and d <= 19):
+        return "Aries ♈️"
+        #Aries ♈️: March 21 - April 19.
+    elif (m == 4 and d >= 20) or (m == 5 and d <= 20):
+        return "Taurus ♉️"
+        #Taurus ♉️: April 20 - May 20.
+    elif (m == 5 and d >= 21) or (m == 6 and d <= 20):
+        return "Gemini ♊️"
+        #Gemini ♊️: May 21 - June 20.
+    elif (m == 6 and d >= 21) or (m == 7 and d <= 22):
+        return "Cancer ♋️"
+        #Cancer ♋️: June 21 - July 22
+    elif (m == 7 and d >= 23) or (m == 8 and d <= 22):
+        return "Leo ♌️"
+        #Leo ♌️: July 23 - August 22.
+    elif (m == 8 and d >= 23) or (m == 9 and d <= 22):
+        return "Virgo ♍️"
+        #Virgo ♍️: August 23 - September 22
+    elif (m == 9 and d >= 23) or (m == 10 and d <= 22):
+        return "Libra ♎️"
+        #Libra ♎️: September 23 - October 22
+    elif (m == 10 and d >= 23) or (m == 11 and d <= 21):
+        return "Scorpio ♏️"
+        #Scorpio ♏️: October 23 - November 21
+    elif (m == 11 and d >= 22) or (m == 12 and d <= 21):
+        return "Sagittarius ♐️"
+        #Sagittarius ♐️: November 22 - December 21
+    elif (m == 12 and d >= 22) or (m == 1 and d <= 19):
+        return "Capricorn ♑️"
+        #Capricorn ♑️: December 22 - January 19
+    else:
+        return "Invalid date"
+
+d = int(input("Enter the day of birth: "))
+m = int(input("Enter the month of birth: "))
+zodiac_sign = know_zodiac_sign(d, m)
+print("Your Zodiac sign is:", zodiac_sign)
+print("#Thanks for visiting here.#")
+
+print("Easy method to your zodiac sign and share with your friends")

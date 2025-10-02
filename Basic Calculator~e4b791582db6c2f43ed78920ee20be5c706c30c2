@@ -1,0 +1,91 @@
+from dataclasses import dataclass
+from enum import Enum, auto
+
+# Enum for calculator operations
+class Operation(Enum):
+    ADD = auto()
+    SUBTRACT = auto()
+    MULTIPLY = auto()
+    DIVIDE = auto()
+    EXIT = auto()
+
+@dataclass
+class Calculator:
+    num1: float
+    num2: float
+    operation: Operation
+
+    def calculate(self) -> float:
+        """Perform calculation based on the operation."""
+        if self.operation == Operation.ADD:
+            return self.num1 + self.num2
+        elif self.operation == Operation.SUBTRACT:
+            return self.num1 - self.num2
+        elif self.operation == Operation.MULTIPLY:
+            return self.num1 * self.num2
+        elif self.operation == Operation.DIVIDE:
+            if self.num2 == 0:
+                raise ZeroDivisionError("Cannot divide by zero.")
+            return self.num1 / self.num2
+        else:
+            raise ValueError("Invalid operation.")
+
+def get_user_input() -> Calculator:
+    """Get validated user input for the calculator."""
+    while True:
+        print("\nChoose an operation:")
+        print("a. Add")
+        print("b. Subtract")
+        print("c. Multiply")
+        print("d. Divide")
+        print("e. Exit")
+
+        choice = input("Choose an option (a-e): ").lower()
+
+        if choice == 'e':
+            return Calculator(0, 0, Operation.EXIT)
+
+        operation_map = {
+            'a': Operation.ADD,
+            'b': Operation.SUBTRACT,
+            'c': Operation.MULTIPLY,
+            'd': Operation.DIVIDE
+        }
+
+        if choice in operation_map:
+            try:
+                num1 = float(input("Enter number 1: "))
+                num2 = float(input("Enter number 2: "))
+                return Calculator(num1, num2, operation_map[choice])
+            except ValueError:
+                print("Invalid number input. Please enter numeric values.")
+        else:
+            print("Invalid choice. Please select a valid option.")
+
+def main():
+    print("Welcome to the Advanced Python Calculator!")
+
+    while True:
+        calc = get_user_input()
+
+        if calc.operation == Operation.EXIT:
+            print("Hope your calculations went well. Goodbye!")
+            break
+
+        try:
+            result = calc.calculate()
+            operator_symbols = {
+                Operation.ADD: "+",
+                Operation.SUBTRACT: "-",
+                Operation.MULTIPLY: "*",
+                Operation.DIVIDE: "/"
+            }
+            operator = operator_symbols[calc.operation]
+            print(f"{calc.num1} {operator} {calc.num2} = {result}")
+        except ZeroDivisionError as e:
+            print(f"Error: {e}")
+
+    print("\nThanks for visiting my profile! I hope this code helps you.")
+
+if __name__ == "__main__":
+    main()
