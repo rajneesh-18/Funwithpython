@@ -1,5 +1,9 @@
 from dataclasses import dataclass
 from enum import Enum
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 # Enum for BMI categories
 class BMICategory(Enum):
@@ -29,26 +33,66 @@ def categorize_bmi(bmi: float) -> BMICategory:
     else:
         return BMICategory.OBESE
 
+def health_advice(category: BMICategory) -> str:
+    """Return health advice message based on BMI category."""
+    messages = {
+        BMICategory.UNDERWEIGHT: "Consider a balanced diet with more calories. 🥗",
+        BMICategory.NORMAL: "Great job! Maintain your healthy lifestyle. 💪",
+        BMICategory.OVERWEIGHT: "Try regular exercise and a balanced diet. 🚴",
+        BMICategory.OBESE: "Consult a healthcare provider for guidance. 🏥"
+    }
+    return messages[category]
+
 def get_user_input() -> User:
     """Get validated user input for weight and height."""
     while True:
         try:
-            weight = float(input("Enter your weight in kilograms: "))
-            height = float(input("Enter your height in centimeters: "))
+            unit = input("Choose unit system (kg/cm or lbs/in): ").strip().lower()
+            if unit in ["kg/cm", "kg", "metric"]:
+                weight = float(input("Enter your weight in kilograms: "))
+                height = float(input("Enter your height in centimeters: "))
+            elif unit in ["lbs/in", "lbs", "imperial"]:
+                weight_lbs = float(input("Enter your weight in pounds: "))
+                height_in = float(input("Enter your height in inches: "))
+                weight = weight_lbs * 0.453592  # lbs → kg
+                height = height_in * 2.54       # in → cm
+            else:
+                raise ValueError("Invalid unit system.")
+
             if weight <= 0 or height <= 0:
-                raise ValueError
+                raise ValueError("Values must be positive.")
+
             return User(weight, height)
-        except ValueError:
-            print("Invalid input. Please enter positive numbers for weight and height.")
+
+        except ValueError as e:
+            print(f"Invalid input: {e}. Please try again.\n")
 
 def main():
-    user = get_user_input()
-    bmi = calculate_bmi(user.weight, user.height)
-    category = categorize_bmi(bmi)
-    
-    print(f"\nYour BMI is: {bmi:.2f}")
-    print(f"Category: {category.value}")
-    print("\nThanks for visiting my profile! I hope this code helps you.")
+    print("\n--- BMI Calculator ---")
+    while True:
+        user = get_user_input()
+        bmi = calculate_bmi(user.weight, user.height)
+        category = categorize_bmi(bmi)
+
+        # ANSI colors for CLI
+        colors = {
+            BMICategory.UNDERWEIGHT: "\033[93m",  # Yellow
+            BMICategory.NORMAL: "\033[92m",      # Green
+            BMICategory.OVERWEIGHT: "\033[94m",  # Blue
+            BMICategory.OBESE: "\033[91m"        # Red
+        }
+        reset = "\033[0m"
+
+        print(f"\nYour BMI is: {bmi:.2f}")
+        print(f"Category: {colors[category]}{category.value}{reset}")
+        print(f"Advice: {health_advice(category)}")
+
+        logging.info("Calculation completed successfully.")
+
+        again = input("\nDo you want to calculate for another person? (y/n): ").lower()
+        if again != 'y':
+            print("\nThanks for using the BMI Calculator! Stay healthy! 🌿")
+            break
 
 if __name__ == "__main__":
     main()
